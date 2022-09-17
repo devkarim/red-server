@@ -1,12 +1,12 @@
 import express from 'express';
 import authRouter from './auth';
 
-const rootRouter = express.Router();
+const router = express.Router();
 
-rootRouter.get('/', (req, res) => {
+router.get('/', (req, res) => {
   return res.send('hello world');
 });
 
-rootRouter.use('/auth', authRouter);
+router.use('/auth', authRouter);
 
-export default rootRouter;
+export default router;

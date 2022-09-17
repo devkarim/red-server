@@ -5,7 +5,7 @@ import passport from 'passport';
 import cookieSession from 'cookie-session';
 import cors from 'cors';
 
-import rootRouter from './routes';
+import router from './routes';
 import {
   PORT,
   MAIN_DOMAIN_URL,
@@ -22,7 +22,7 @@ const app = express();
 async function main() {
   useDefaultRoutes();
   // usePassport();
-  app.use('/api', rootRouter);
+  app.use('/api', router);
   // Error handlers
   app.use(errorLogger);
   app.use(errorSender);

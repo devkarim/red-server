@@ -1,11 +1,12 @@
 {
   "name": "red-mobile-server",
   "main": "./dist/app.js",
+  "description": "Red is an assistant to keep you reminded and help with daily tasks.",
   "scripts": {
     "start": "tsc && node dist/app.js",
     "watch": "tsc-watch -p ./tsconfig.json --onCompilationComplete \"node ./dist/app.js\"",
     "dev": "nodemon src/app.ts",
-    "test": "node dist/test/test.js"
+    "migrate:dev": "prisma migrate dev"
   },
   "author": {
     "name": "devkarim",
@@ -13,7 +14,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^3.1.1",
+    "@prisma/client": "^4.3.1",
     "bcrypt": "^5.0.1",
     "class-validator": "0.13.1",
     "cookie-session": "^1.4.0",
@@ -40,7 +41,7 @@
     "@types/passport-local": "^1.0.34",
     "@types/ws": "7.4.7",
     "nodemon": "^2.0.20",
-    "prisma": "^3.1.1",
+    "prisma": "^4.3.1",
     "ts-node": "10.2.1",
     "ts-node-dev": "1.1.8",
     "typescript": "4.4.3"
