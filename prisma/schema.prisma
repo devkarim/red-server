@@ -1,0 +1,43 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNKNOWN
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  email              String    @unique
+  username           String?   @unique
+  password           String?
+  verified           Boolean?  @default(false)
+  hasProfile         Boolean?  @default(false)
+  profile            Profile?
+  lastVerificationAt DateTime?
+  verificationsSent  Int?      @default(0)
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  firstName String?
+  lastName  String?
+  bio       String?
+  gender    Gender   @default(MALE)
+  author    User?    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  Int      @unique
+}
