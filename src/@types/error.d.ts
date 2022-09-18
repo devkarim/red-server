@@ -1,4 +1,4 @@
 interface ErrorMessage {
   message: string;
-  code?: string;
+  code?: string | number;
 }

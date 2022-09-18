@@ -14,6 +14,7 @@ import {
   __prod__,
 } from './config/constants';
 import prisma from './services/prisma';
+import errorHandler from './middlewares/errors/errorHandler';
 import errorLogger from './middlewares/errors/errorLogger';
 import errorSender from './middlewares/errors/errorSender';
 
@@ -24,6 +25,7 @@ async function main() {
   // usePassport();
   app.use('/api', router);
   // Error handlers
+  app.use(errorHandler);
   app.use(errorLogger);
   app.use(errorSender);
   // Listen

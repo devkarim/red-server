@@ -7,7 +7,7 @@ const errorSender = (
   res: Response,
   next: NextFunction
 ) => {
-  return res.status(error.statusCode).json(error.msg);
+  return res.status(error.statusCode || 500).json(error.msg);
 };
 
 export default errorSender;

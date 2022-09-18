@@ -1,4 +1,4 @@
-import { Result, ValidationError } from 'express-validator';
+import { ZodError } from 'zod';
 
 export enum ErrorType {
   MESSAGE,
@@ -16,7 +16,11 @@ export default abstract class BaseError extends Error {
 }
 
 export class BaseErrorAdapter extends BaseError {
-  constructor(public messages: ErrorMessage[], public stack?: string) {
+  constructor(
+    public messages: ErrorMessage[],
+    public stack?: string,
+    public statusCode: number = 500
+  ) {
     super();
   }
 }
@@ -50,10 +54,18 @@ export class NotFound extends BaseError {
   public statusCode: number = 404;
 }
 
-export const getVErrors = (errs: Result<ValidationError>): ErrorMessage[] => {
+export const zodToError = (e: ZodError, statusCode: number = 400) => {
   const errors: ErrorMessage[] = [];
-  for (const err of errs.array()) {
-    errors.push({ message: err.msg, code: err.param });
+  for (const i of e.errors) {
+    errors.push({ message: i.message, code: i.code });
   }
-  return errors;
+  return new BaseErrorAdapter(errors, e.stack, statusCode);
+};
+
+export const handleError = (err: unknown): BaseError => {
+  if (err instanceof BaseError) return err;
+  else if (err instanceof ZodError) return zodToError(err, 400);
+  else if (err instanceof Error)
+    return new BaseErrorAdapter([{ message: err.message }], err.stack);
+  return new BaseErrorAdapter([{ message: err as any }]);
 };
