@@ -16,3 +16,16 @@ export const fetchPrayersByCity = async (
   });
   return res.data as PrayerResponse;
 };
+
+export const fetchPrayersByLoc = async (
+  latitude: number,
+  longitude: number,
+  month?: number,
+  year?: number,
+  method?: string
+): Promise<PrayerResponse> => {
+  const res = await client.get(`/calendar`, {
+    params: { latitude, longitude, month, year, method, iso8601: true },
+  });
+  return res.data as PrayerResponse;
+};
