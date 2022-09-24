@@ -3,7 +3,7 @@
   "main": "./dist/app.js",
   "description": "Red is an assistant to keep you reminded and help with daily tasks.",
   "scripts": {
-    "start": "tsc && migrate:deploy && node dist/app.js",
+    "start": "tsc && yarn migrate:deploy && node dist/app.js",
     "watch": "tsc-watch -p ./tsconfig.json --onCompilationComplete \"node ./dist/app.js\"",
     "dev": "nodemon --files src/app.ts",
     "migrate:dev": "prisma migrate dev",
