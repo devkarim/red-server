@@ -4,6 +4,7 @@ export const WEATHER_API_URL = 'https://api.openweathermap.org';
 export const WEATHER_ENDPOINT = '/data/2.5/weather';
 export const WEATHER_FORECAST_ENDPOINT = '/data/2.5/forecast';
 export const GEO_ENDPOINT = '/geo/1.0/direct';
+export const GEO_REVERSE_ENDPOINT = '/geo/1.0/reverse';
 
 const client = axios.create({
   baseURL: WEATHER_API_URL,
@@ -54,4 +55,14 @@ export const fetchWeatherForecastByCity = async (
   const { lat, lon } = geo[0];
   const weather = await fetchWeatherForecast(lat, lon);
   return weather;
+};
+
+export const fetchLocationByCoords = async (
+  lat: string,
+  lon: string
+): Promise<GeoResponse> => {
+  const res = await client.get(GEO_REVERSE_ENDPOINT, {
+    params: { lat, lon },
+  });
+  return res.data as GeoResponse;
 };

@@ -2,12 +2,12 @@ import { weatherQuery } from '../models/weather';
 import {
   fetchWeatherByCity,
   fetchWeatherForecastByCity,
-} from './../services/weather';
+} from '../services/weatherGeo';
 import express from 'express';
 import validate from '../helpers/validator';
 
 /**
- * Express router for prayers related functions.
+ * Express router for weather related functions.
  * @namespace weatherRouter
  */
 const weatherRouter = express.Router();
