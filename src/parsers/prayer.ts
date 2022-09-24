@@ -8,11 +8,14 @@ interface PrayerData {
   otherTimings: Prayer[];
 }
 
+interface AllPrayerData {
+  prayersToday: PrayerData;
+  prayersTomorrow: PrayerData;
+}
+
 const timingsNames = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
 
-const parsePrayersRes = (res: PrayerResponse, day: string): PrayerData => {
-  const prayersToday = res.data.find((p) => p.date.gregorian.day == day);
-  const timings = prayersToday?.timings as Timings;
+const parseTimings = (timings: Timings): PrayerData => {
   const prayers: Prayer[] = [];
   const otherTimings: Prayer[] = [];
   for (const p in timings) {
@@ -26,6 +29,20 @@ const parsePrayersRes = (res: PrayerResponse, day: string): PrayerData => {
     }
   }
   return { prayers, otherTimings };
+};
+
+const parsePrayersRes = (res: PrayerResponse, day: string): AllPrayerData => {
+  const prayersTodayIndex = res.data.findIndex(
+    (p) => p.date.gregorian.day == day
+  );
+  const prayersToday = res.data[prayersTodayIndex];
+  const prayersTomorrowData = res.data[prayersTodayIndex + 1];
+  const timings = prayersToday?.timings as Timings;
+  const timingsTomorrow = prayersTomorrowData?.timings as Timings;
+  return {
+    prayersToday: parseTimings(timings),
+    prayersTomorrow: parseTimings(timingsTomorrow),
+  };
 };
 
 export default parsePrayersRes;
