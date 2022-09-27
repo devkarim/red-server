@@ -10,5 +10,6 @@ declare namespace NodeJS {
     SESSION_SECRET: string;
     // API keys
     OPEN_WEATHER_API_KEY: string;
+    MATCHES_API_KEY: string;
   }
 }
