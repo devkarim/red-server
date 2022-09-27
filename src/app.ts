@@ -23,6 +23,7 @@ const app = express();
 
 async function main() {
   useDefaultRoutes();
+  app.set('trust proxy', 'loopback');
   // usePassport();
   app.use('/api', router);
   // Error handlers
