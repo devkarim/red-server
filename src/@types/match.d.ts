@@ -99,25 +99,10 @@ type MatchStatus =
   | 'SUSPENDED'
   | 'CANCELLED';
 
-interface FinalScore {
-  winner: string;
-  homeTeam: number;
-  awayTeam: number;
-}
+interface MatchToday extends Match {}
 
-interface MatchToday {
-  homeTeam: Team;
-  awayTeam: Team;
-  status: MatchStatus;
-  score: Score;
-  finalScore: FinalScore;
-  season: Season;
-  utcDate: string;
-  lastUpdated: string;
-  matchday?: number;
-}
-
-interface MatchesToday {
+interface LeagueMatchesToday {
   league: Competition;
+  date: string;
   matches: MatchToday[];
 }

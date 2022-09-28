@@ -8,18 +8,23 @@ const client = axios.create({
   headers: { 'X-Auth-Token': process.env.MATCHES_API_KEY },
 });
 
-export const POPULAR_LEAGUE_IDS = ['CL', 'PL', 'BL1', 'FL1', 'SA', 'PD', 'WC'];
+export const POPULAR_LEAGUE_IDS = ['CL', 'PL', 'PD', 'WC'];
 
+/**
+ * @param {string}  date  yyyy-MM-dd format e.g. 2018-06-22
+ */
 export const fetchMatchesByLeague = async (
   leagueId: string,
   date?: string,
   fromDate?: string,
   toDate?: string
 ) => {
+  const todayDate = new Date();
+  const today = todayDate.toISOString().split('T')[0];
   const res = await client.get(`/competitions/${leagueId}/matches`, {
     params: {
-      dateFrom: date ?? fromDate,
-      dateTo: date ?? toDate,
+      dateFrom: date ?? fromDate ?? today,
+      dateTo: date ?? toDate ?? today,
     },
   });
   return res.data as MatchesResponse;
@@ -27,8 +32,14 @@ export const fetchMatchesByLeague = async (
 
 export const fetchPopularMatchesToday = async (
   date?: string
-): Promise<MatchesToday> => {
+): Promise<LeagueMatchesToday[]> => {
+  const matchesToday: LeagueMatchesToday[] = [];
+  const todayDate = new Date();
+  const today = todayDate.toISOString().split('T')[0];
   for (const leagueId of POPULAR_LEAGUE_IDS) {
-    const leagueMatches = await fetchMatchesByLeague(leagueId, date);
+    const leagueMatchesRes = await fetchMatchesByLeague(leagueId, date);
+    const { competition: league, matches } = leagueMatchesRes;
+    matchesToday.push({ league, matches, date: date ?? today });
   }
+  return matchesToday;
 };

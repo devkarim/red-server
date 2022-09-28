@@ -34,6 +34,9 @@ async function main() {
   app.listen(PORT, () => {
     console.log(`Server started on ${SERVER_URL} prod:${__prod__}`);
   });
+  app.get('/', (req, res) => {
+    return res.send('red is here');
+  });
 }
 
 function useDefaultRoutes() {
