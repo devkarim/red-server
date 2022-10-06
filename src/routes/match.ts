@@ -1,6 +1,4 @@
-import { fetchMatchesByLeague } from './../services/match';
 import express from 'express';
-import validate from '../helpers/validator';
 import { fetchPopularMatchesToday } from '../services/match';
 
 /**
