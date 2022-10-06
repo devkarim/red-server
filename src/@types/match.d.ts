@@ -26,9 +26,9 @@ interface Match {
   season: Season;
   utcDate: string;
   status: MatchStatus;
-  matchday?: number;
+  matchday?: number | null;
   stage: string;
-  group?: string;
+  group?: string | null;
   lastUpdated: string;
   odds: Odds;
   score: Score;
@@ -51,30 +51,15 @@ interface Odds {
 interface Score {
   winner?: string;
   duration: string;
-  fullTime: FullTime;
-  halfTime: HalfTime;
-  extraTime: ExtraTime;
-  penalties: Penalties;
+  fullTime: TimeScore;
+  halfTime: TimeScore;
+  extraTime: TimeScore;
+  penalties: TimeScore;
 }
 
-interface FullTime {
-  homeTeam?: number;
-  awayTeam?: number;
-}
-
-interface HalfTime {
-  homeTeam?: number;
-  awayTeam?: number;
-}
-
-interface ExtraTime {
-  homeTeam?: number;
-  awayTeam?: number;
-}
-
-interface Penalties {
-  homeTeam?: number;
-  awayTeam?: number;
+interface TimeScore {
+  homeTeam?: number | null;
+  awayTeam?: number | null;
 }
 
 interface Team {
@@ -102,7 +87,7 @@ type MatchStatus =
 interface MatchToday extends Match {}
 
 interface LeagueMatchesToday {
-  league: Competition;
+  league: string;
   date: string;
   matches: MatchToday[];
 }

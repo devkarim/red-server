@@ -33,7 +33,7 @@ const parseTimings = (timings: Timings): PrayerData => {
 
 const parsePrayersRes = (res: PrayerResponse, day: string): AllPrayerData => {
   const prayersTodayIndex = res.data.findIndex(
-    (p) => p.date.gregorian.day == day
+    (p) => parseInt(p.date.gregorian.day) == parseInt(day)
   );
   const prayersToday = res.data[prayersTodayIndex];
   const prayersTomorrowData = res.data[prayersTodayIndex + 1];

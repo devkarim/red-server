@@ -39,7 +39,7 @@ export const fetchPopularMatchesToday = async (
   for (const leagueId of POPULAR_LEAGUE_IDS) {
     const leagueMatchesRes = await fetchMatchesByLeague(leagueId, date);
     const { competition: league, matches } = leagueMatchesRes;
-    matchesToday.push({ league, matches, date: date ?? today });
+    matchesToday.push({ league: league.name, matches, date: date ?? today });
   }
   return matchesToday;
 };
