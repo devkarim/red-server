@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const MATCHES_API_URL = 'https://api.football-data.org/v2';
+export const MATCHES_API_URL = 'https://api.football-data.org/v4';
 
 const client = axios.create({
   baseURL: MATCHES_API_URL,
@@ -27,19 +27,20 @@ export const fetchMatchesByLeague = async (
       dateTo: date ?? toDate ?? today,
     },
   });
+  console.log(res);
   return res.data as MatchesResponse;
 };
 
-export const fetchPopularMatchesToday = async (
+export const fetchPopularMatches = async (
   date?: string
-): Promise<LeagueMatchesToday[]> => {
-  const matchesToday: LeagueMatchesToday[] = [];
+): Promise<LeagueMatches[]> => {
+  const allMatches: LeagueMatches[] = [];
   const todayDate = new Date();
   const today = todayDate.toISOString().split('T')[0];
   for (const leagueId of POPULAR_LEAGUE_IDS) {
     const leagueMatchesRes = await fetchMatchesByLeague(leagueId, date);
     const { competition: league, matches } = leagueMatchesRes;
-    matchesToday.push({ league: league.name, matches, date: date ?? today });
+    allMatches.push({ league, matches, date: date ?? today });
   }
-  return matchesToday;
+  return allMatches;
 };
